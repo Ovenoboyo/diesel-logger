@@ -7,8 +7,8 @@ use std::time::{Duration, Instant};
 
 use diesel::backend::Backend;
 use diesel::connection::{
-    Connection, ConnectionSealed, LoadConnection, SimpleConnection, TransactionManager,
-    TransactionManagerStatus,
+    Connection, ConnectionSealed, Instrumentation, LoadConnection, SimpleConnection,
+    TransactionManager, TransactionManagerStatus,
 };
 use diesel::debug_query;
 use diesel::expression::QueryMetadata;
@@ -104,6 +104,23 @@ where
 
     fn transaction_state(&mut self) -> &mut <Self::TransactionManager as TransactionManager<LoggingConnection<C>>>::TransactionStateData{
         &mut self.transaction_manager
+    }
+
+    #[doc = " Get the instrumentation instance stored in this connection"]
+    #[cfg_attr(
+        not(feature = "i-implement-a-third-party-backend-and-opt-into-breaking-changes"),
+        doc(hidden)
+    )]
+    #[cfg_attr(
+        docsrs,
+        doc(cfg(feature = "i-implement-a-third-party-backend-and-opt-into-breaking-changes"))
+    )]
+    fn instrumentation(&mut self) -> &mut dyn Instrumentation {
+        self.connection.instrumentation()
+    }
+
+    fn set_instrumentation(&mut self, instrumentation: impl diesel::connection::Instrumentation) {
+        self.connection.set_instrumentation(instrumentation)
     }
 }
 
