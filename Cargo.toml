@@ -13,8 +13,17 @@ edition = "2021"
 maintenance = { status = "as-is" }
 
 [dependencies]
-diesel = { version = "2.2.3", features = [
+diesel = { version = "2.2.6", features = [
     "r2d2",
     "i-implement-a-third-party-backend-and-opt-into-breaking-changes",
 ] }
-log = "0.4.18"
+log = "0.4.22"
+tracing = "0.1.41"
+tracing-subscriber = "0.3.19"
+
+[[example]]
+name = "example"
+path = "example/main.rs"
+
+[dev-dependencies]
+diesel = { version = "2.2.6", features = ["sqlite"] }

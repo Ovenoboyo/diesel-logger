@@ -1,6 +1,4 @@
 extern crate diesel;
-#[macro_use]
-extern crate log;
 
 use std::fmt::Display;
 use std::time::{Duration, Instant};
@@ -16,6 +14,7 @@ use diesel::migration::MigrationConnection;
 use diesel::prelude::*;
 use diesel::query_builder::{AsQuery, Query, QueryFragment, QueryId};
 use diesel::r2d2::R2D2Connection;
+use tracing::{debug, info, warn};
 
 /// Wraps a diesel `Connection` to time and log each query using
 /// the configured logger for the `log` crate.
