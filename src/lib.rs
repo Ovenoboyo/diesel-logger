@@ -121,6 +121,10 @@ where
     fn set_instrumentation(&mut self, instrumentation: impl diesel::connection::Instrumentation) {
         self.connection.set_instrumentation(instrumentation)
     }
+    
+    fn set_prepared_statement_cache_size(&mut self, size: diesel::connection::CacheSize) {
+        self.connection.set_prepared_statement_cache_size(size)
+    }
 }
 
 impl<B, C> LoadConnection<B> for LoggingConnection<C>
